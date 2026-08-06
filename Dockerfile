@@ -1,12 +1,15 @@
 FROM nginxinc/nginx-unprivileged:alpine
 
-# Copy static files to the Nginx document root
-COPY --chown=nginx:nginx . /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
+
+# Copy static assets directly to nginx html directory
+COPY . .
 
 # Copy custom nginx configuration
-COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose unprivileged port
 EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 CMD wget -qO- http://localhost:8080/health || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
