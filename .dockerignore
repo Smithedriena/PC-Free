@@ -1,0 +1,16 @@
+.git
+.github
+node_modules
+npm-debug.log
+Dockerfile
+docker-compose.yml
+.dockerignore
+nginx.conf
+README.md
+
+# Critical entries added by Auto Docker
+.env
+.ssh
+node_modules/
+build/
+dist/
