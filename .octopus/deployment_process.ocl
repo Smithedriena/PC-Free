@@ -1,3 +1,37 @@
+step "install-docker-on-linux" {
+    name = "Install Docker on Linux"
+    properties = {
+        Octopus.Action.TargetRoles = "pcsv"
+    }
+
+    action {
+        is_required = true
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Template.Id = "ActionTemplates-2"
+            Octopus.Action.Template.Version = "1"
+        }
+        worker_pool_variable = ""
+    }
+}
+
+step "docker-create-and-push-image" {
+    name = "Docker - Create and Push Image"
+    properties = {
+        Octopus.Action.TargetRoles = "pcsv"
+    }
+
+    action {
+        is_required = true
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Template.Id = "ActionTemplates-3"
+            Octopus.Action.Template.Version = "1"
+        }
+        worker_pool_variable = ""
+    }
+}
+
 step "run-a-script" {
     name = "Run a Script"
 
