@@ -308,3 +308,27 @@ step "run-a-script" {
         worker_pool = "hosted-windows"
     }
 }
+
+step "upgrade-to-latest-tentacle" {
+    name = "Upgrade To Latest Tentacle"
+    properties = {
+        Octopus.Action.MaxParallelism = "1"
+        Octopus.Action.TargetRoles = "pcsv"
+    }
+
+    action {
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Template.Id = "ActionTemplates-6"
+            Octopus.Action.Template.Version = "1"
+            UpdateTentacles.EnvironmentNames = "#{Octopus.Environment.Name}"
+            UpdateTentacles.MachineNames = "#{Octopus.Account.AccountType}"
+            UpdateTentacles.OctopusUrl = "#{Octopus.Web.ServerUri}"
+            UpdateTentacles.RoleNames = "#{Octopus.Account.Name}"
+            UpdateTentacles.SpaceName = "#{Octopus.Space.Name}"
+            UpdateTentacles.Wait = "True"
+            UpdateTentacles.WhatIf = "True"
+        }
+        worker_pool_variable = ""
+    }
+}
