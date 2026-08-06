@@ -1,17 +1,18 @@
 step "install-docker-on-linux" {
+    condition = "Always"
     name = "Install Docker on Linux"
     properties = {
+        Octopus.Action.MaxParallelism = "1"
         Octopus.Action.TargetRoles = "pcsv"
     }
 
     action {
         is_required = true
         properties = {
-            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Template.Id = "ActionTemplates-2"
             Octopus.Action.Template.Version = "1"
         }
-        worker_pool_variable = ""
+        worker_pool = "hosted-ubuntu"
     }
 }
 
