@@ -333,6 +333,29 @@ step "upgrade-to-latest-tentacle" {
     }
 }
 
+step "register-listening-deployment-target-with-octopus" {
+    name = "Register Listening Deployment Target with Octopus"
+
+    action {
+        properties = {
+            Octopus.Action.Template.Id = "ActionTemplates-8"
+            Octopus.Action.Template.Version = "2"
+            RegisterListeningTarget.Environment.List = "#{Octopus.Environment.Name}"
+            RegisterListeningTarget.Machine.Address = "#{Octopus.Machine.Id}"
+            RegisterListeningTarget.Machine.Name = "#{Octopus.Machine.Name}"
+            RegisterListeningTarget.Machine.Port = "10933#{Octopus.Action.Docker.PortAutoMap}"
+            RegisterListeningTarget.MachinePolicy.IdOrName = "Default Machine Policy#{Octopus.Action.Docker.RestartPolicyMax}"
+            RegisterListeningTarget.Octopus.Api.Key = "#{Octopus.Account.Token}"
+            RegisterListeningTarget.Octopus.Base.Url = "#{Octopus.Web.BaseUrl}"
+            RegisterListeningTarget.Overwrite.Existing = "False"
+            RegisterListeningTarget.Roles.List = "#{Octopus.Machine.Roles}"
+            RegisterListeningTarget.Tenant.DeploymentType = "Untenanted"
+        }
+        worker_pool = "hosted-ubuntu"
+        worker_pool_variable = ""
+    }
+}
+
 step "deploy-child-octopus-deploy-project" {
     name = "Deploy Child Octopus Deploy Project"
     properties = {
@@ -365,29 +388,6 @@ step "deploy-child-octopus-deploy-project" {
             Octopus.Action.Template.Id = "ActionTemplates-7"
             Octopus.Action.Template.Version = "29"
         }
-        worker_pool_variable = ""
-    }
-}
-
-step "register-listening-deployment-target-with-octopus" {
-    name = "Register Listening Deployment Target with Octopus"
-
-    action {
-        properties = {
-            Octopus.Action.Template.Id = "ActionTemplates-8"
-            Octopus.Action.Template.Version = "2"
-            RegisterListeningTarget.Environment.List = "#{Octopus.Environment.Name}"
-            RegisterListeningTarget.Machine.Address = "#{Octopus.Machine.Id}"
-            RegisterListeningTarget.Machine.Name = "#{Octopus.Machine.Name}"
-            RegisterListeningTarget.Machine.Port = "10933#{Octopus.Action.Docker.PortAutoMap}"
-            RegisterListeningTarget.MachinePolicy.IdOrName = "Default Machine Policy#{Octopus.Action.Docker.RestartPolicyMax}"
-            RegisterListeningTarget.Octopus.Api.Key = "#{Octopus.Account.Token}"
-            RegisterListeningTarget.Octopus.Base.Url = "#{Octopus.Web.BaseUrl}"
-            RegisterListeningTarget.Overwrite.Existing = "False"
-            RegisterListeningTarget.Roles.List = "#{Octopus.Machine.Roles}"
-            RegisterListeningTarget.Tenant.DeploymentType = "Untenanted"
-        }
-        worker_pool = "hosted-ubuntu"
         worker_pool_variable = ""
     }
 }
