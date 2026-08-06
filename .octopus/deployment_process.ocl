@@ -332,3 +332,39 @@ step "upgrade-to-latest-tentacle" {
         worker_pool_variable = ""
     }
 }
+
+step "deploy-child-octopus-deploy-project" {
+    name = "Deploy Child Octopus Deploy Project"
+    properties = {
+        Octopus.Action.TargetRoles = "pcsv"
+    }
+
+    action {
+        properties = {
+            ChildProject.Api.Key = "#{Octopus.Account.Token}"
+            ChildProject.CancelDeployment.Seconds = "1800"
+            ChildProject.Deployment.FutureTime = "N/A"
+            ChildProject.Deployment.IgnoreSpecificMachineMismatch = "No"
+            ChildProject.DeploymentMode.Value = "Promote"
+            ChildProject.Destination.EnvironmentName = "#{Octopus.Environment.Name}"
+            ChildProject.EnableEnhancedLogging.Value = "No"
+            ChildProject.ManualIntervention.EnvironmentToUse = "#{Octopus.Environment.Name}"
+            ChildProject.ManualIntervention.Tenant.Name = "#{Octopus.Deployment.Tenant.Name}"
+            ChildProject.ManualInterventions.UseApprovalsFromParent = "Yes"
+            ChildProject.Project.Name = "#{Octopus.Project.Name}"
+            ChildProject.RefreshVariableSnapShots.Option = "No"
+            ChildProject.Release.NotFoundError = "Warning"
+            ChildProject.ReleaseNotes.SaveAsArtifact = "No"
+            ChildProject.Space.Name = "#{Octopus.Space.Name}"
+            ChildProject.Target.MachineNames = "N/A"
+            ChildProject.Tenant.Name = "#{Octopus.Deployment.Tenant.Name}"
+            ChildProject.WaitForFinish.Value = "Yes"
+            ChildProject.Web.ServerUrl = "#{Octopus.Web.ServerUri}"
+            ChildProject.WhatIf.Value = "No"
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Template.Id = "ActionTemplates-7"
+            Octopus.Action.Template.Version = "29"
+        }
+        worker_pool_variable = ""
+    }
+}
